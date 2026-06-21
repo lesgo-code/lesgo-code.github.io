@@ -31,12 +31,28 @@ html {
   -webkit-text-size-adjust:100%;
 }
 
+html, body {
+  height:100%;
+  overflow:hidden;
+}
+
 body {
   margin:0;
   font-family:'Kenao', sans-serif;
   color:#3b2f2f;
   overflow-x:hidden;
   background:none;
+}
+
+/* Inner scroll wrapper — keeps the actual document from scrolling/bouncing,
+   so the fixed background behind it can't be stretched by iOS rubber-banding */
+#page-scroll {
+  position:relative;
+  height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior-y:contain;
 }
 
 /* Background Image */
@@ -726,6 +742,8 @@ footer {
   <p data-en="Present" data-es="Presentan">Present</p>
 </div>
 
+<div id="page-scroll">
+
 <nav>
 <div class="nav-links" id="navLinks">
 <a href="#home" data-en="Home" data-es="Inicio">Home</a>
@@ -1119,9 +1137,12 @@ way to the venue for 14:30.</p>
 <p data-en="With love • Abi & Ivan" data-es="Con amor • Abi & Ivan">With love • Abi & Ivan</p>
 </footer>
 
+</div><!-- /#page-scroll -->
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
+    const pageScroll = document.getElementById('page-scroll');
     document.querySelectorAll('nav a[href^="#"]').forEach(function(link) {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -1132,7 +1153,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const elementPosition = targetElement.offsetTop;
           const offsetPosition = elementPosition - headerOffset;
 
-          window.scrollTo({
+          pageScroll.scrollTo({
             top: offsetPosition,
             behavior: 'smooth'
           });
@@ -1145,6 +1166,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
     });
+
+    // Support direct links to a section (e.g. yoursite.com/#rsvp)
+    if (location.hash) {
+      const target = document.getElementById(location.hash.slice(1));
+      if (target) {
+        requestAnimationFrame(() => {
+          pageScroll.scrollTo({ top: target.offsetTop - 80 });
+        });
+      }
+    }
   });
 
 let currentLang = 'en';
@@ -1174,7 +1205,7 @@ setInterval(()=>{
 },1000);
 
 const sections=document.querySelectorAll("section");
-window.addEventListener("scroll",()=>{
+document.getElementById('page-scroll').addEventListener("scroll",()=>{
  sections.forEach(sec=>{
    if(sec.getBoundingClientRect().top<window.innerHeight-100){
      sec.classList.add("show");
