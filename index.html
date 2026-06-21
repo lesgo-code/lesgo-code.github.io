@@ -261,6 +261,11 @@ section {
 
 section.show {opacity:1;transform:translateY(0);}
 
+section p {
+  font-size:18px;
+  line-height:1.6;
+}
+
 h2 {
   font-family:'Kenao', sans-serif;
   font-size:clamp(30px, 7vw, 80px);
@@ -562,15 +567,9 @@ h2 {
 
 .route-note {
   margin-top:10px;
-  font-size:16px;
+  font-size:18px;
   line-height:1.5;
   color:#3b2f2f;
-}
-
-@media(max-width:768px){
-  .route-note{
-    font-size:14px;
-  }
 }
 
 /* Stay & Dine section styles */
@@ -609,7 +608,7 @@ h2 {
 
 .stay-card p {
   margin:0 0 10px;
-  font-size:16px;
+  font-size:18px;
   line-height:1.4;
 }
 
@@ -684,7 +683,7 @@ footer {
 
 .contact-card p {
   margin:0 0 6px;
-  font-size:16px;
+  font-size:18px;
 }
 
 .contact-card a {
@@ -708,9 +707,7 @@ footer {
   }
   .details-block {padding:16px;}
   .details-block h3 {font-size:22px;margin:16px 0 8px;}
-  .details-block p {font-size:15px;line-height:1.5;}
   .location-box {padding:16px;}
-  .location-box p {font-size:14px;line-height:1.5;}
   .location-subheading {font-size:20px;margin:28px 0 0;}
   .map, .location-box > div[style]{height:220px;}
   .stay-subheading {font-size:20px;margin:28px 0 14px;}
@@ -720,6 +717,16 @@ footer {
   .upload-btn {padding:12px 24px;font-size:13px;}
   .music-btn {width:46px;height:46px;bottom:16px;right:16px;font-size:15px;}
   .flower {width:24px;}
+
+  /* Unify all smaller body text in sections to one consistent size on mobile */
+  section p,
+  .details-block p,
+  .route-note,
+  .stay-card p,
+  .contact-card p {
+    font-size:16px;
+    line-height:1.5;
+  }
 }
 
 /* Specific adjustments for Photos section spacing */
@@ -761,7 +768,7 @@ footer {
 <div class="nav-bar-right" id="navBarRight">
 <div class="lang-switch">
   <button type="button" class="lang-btn active" id="lang-en" onclick="setLanguage('en')">EN</button>
-  <button type="button" class="lang-btn" id="lang-es" onclick="setLanguage('es')">ES</button>
+  <button type="button" class="lang-btn" id="lang-es" onclick="setLanguage('es')">CAS</button>
 </div>
 <button type="button" class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Menu">☰</button>
 </div>
@@ -893,7 +900,7 @@ wearing white or cream.
 <h3 class="location-subheading" data-en="Ceremony" data-es="Ceremonia">Ceremony</h3>
 <div class="location-box">
 <p><strong>Basílica de Santa María</strong></p>
-<p>Elche</p>
+<p data-en="Elche" data-es="Elx">Elche</p>
 <p data-en="The ceremony begins at 12:00. Please arrive by 11:40 to find your seat." data-es="La ceremonia comienza a las 12:00. Por favor, llega antes de las 11:40 para encontrar tu asiento.">The ceremony begins at 12:00. Please arrive by 11:40 to find your seat.</p>
 <a href="https://basilicasantamariaelche.es/" target="_blank" rel="noopener" style="color:#8f7a59;text-decoration:underline;font-weight:bold;" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
 </div>
@@ -912,7 +919,7 @@ wearing white or cream.
 <h3 class="location-subheading" data-en="Reception" data-es="Recepción">Reception</h3>
 <div class="location-box">
 <p><strong>Hort de Nal</strong></p>
-<p>Elche</p>
+<p data-en="Elche" data-es="Elx">Elche</p>
 <p data-en="The ceremony will finish at around 13:30. While the bride
 and groom have their photographs taken, guests are
 welcome to enjoy a drink and a chat at one of the lovely bars
@@ -965,7 +972,7 @@ way to the venue for 14:30.</p>
 <section id="stay">
 <h2 data-en="Stay &amp; Dine" data-es="Alojamiento y Restaurantes">Stay & Dine</h2>
 <div class="divider"></div>
-<p data-en="A few of our favorite spots near Elche for your stay." data-es="Algunos de nuestros lugares favoritos cerca de Elche para tu estancia.">A few of our favorite spots near Elche for your stay.</p>
+<p data-en="A few of our favorite spots near Elche for your stay." data-es="Algunos de nuestros lugares favoritos cerca de Elx para tu estancia.">A few of our favorite spots near Elche for your stay.</p>
 
 <h3 class="stay-subheading" data-en="Hotels" data-es="Hoteles">Hotels</h3>
 <div class="stay-grid">
@@ -1061,13 +1068,13 @@ way to the venue for 14:30.</p>
 <div class="stay-grid">
   <div class="stay-card">
     <h4>Radiotaxi Elche</h4>
-    <p data-en="Official 24-hour taxi service in Elche and the airport." data-es="Servicio oficial de taxi en Elche y el aeropuerto, las 24 horas.">Official 24-hour taxi service in Elche and the airport.</p>
+    <p data-en="Official 24-hour taxi service in Elche and the airport." data-es="Servicio oficial de taxi en Elx y el aeropuerto, las 24 horas.">Official 24-hour taxi service in Elche and the airport.</p>
     <a href="tel:+34965427777">965 42 77 77</a>
     <a href="https://www.radiotaxielche.es/paradas.asp" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
   </div>
   <div class="stay-card">
     <h4>Servitaxi Elx</h4>
-    <p data-en="Official 24-hour taxi service in Elche and the airport." data-es="Servicio oficial de taxi en Elche y el aeropuerto, las 24 horas.">Official 24-hour taxi service in Elche and the airport.</p>
+    <p data-en="Official 24-hour taxi service in Elche and the airport." data-es="Servicio oficial de taxi en Elx y el aeropuerto, las 24 horas.">Official 24-hour taxi service in Elche and the airport.</p>
     <a href="tel:+34965212121">965 21 21 21</a>
     <a href="https://servitaxielx.com" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
   </div>
@@ -1096,6 +1103,8 @@ way to the venue for 14:30.</p>
 <section id="rsvp" class="rsvp">
 <h2 data-en="Kindly Respond" data-es="Por favor confirme su asistencia">Kindly Respond</h2>
 <div class="divider"></div>
+
+<p data-en="Please only fill in one form — whichever language you're most comfortable with." data-es="Por favor, completa únicamente uno de los formularios, en el idioma con el que te sientas más cómodo/a.">Please only fill in one form — whichever language you're most comfortable with.</p>
 
 <div class="rsvp-forms">
   <div class="rsvp-form-block">
