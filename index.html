@@ -42,7 +42,10 @@ body {
 /* Background Image */
 .bg-image{
   position:fixed;
-  inset:0;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
   z-index:-1;
   background:
     linear-gradient(rgba(248,245,240,0.75),rgba(248,245,240,0.75)),
@@ -50,6 +53,11 @@ body {
   background-size:cover;
   background-position:55% 35%;
   background-repeat:no-repeat;
+  -webkit-transform:translate3d(0,0,0);
+  transform:translate3d(0,0,0);
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  will-change:transform;
 }
 
 /* iOS Safari background fix */
@@ -92,6 +100,7 @@ nav {
   width:100%;
   top:0;
   background:rgba(255,255,255,0.8);
+  -webkit-backdrop-filter:blur(10px);
   backdrop-filter:blur(10px);
   display:flex;
   justify-content:center;
@@ -112,7 +121,12 @@ nav a {text-decoration:none;color:#3b2f2f;font-size:18px;white-space:nowrap;}
 .lang-switch {
   display:flex;
   gap:6px;
-  margin-left:10px;
+}
+
+.nav-bar-right {
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
 .lang-btn {
@@ -163,6 +177,7 @@ nav a {text-decoration:none;color:#3b2f2f;font-size:18px;white-space:nowrap;}
     height:100vh;
     width:100%;
     background:rgba(248,245,240,0.98);
+    -webkit-backdrop-filter:blur(10px);
     backdrop-filter:blur(10px);
     flex-direction:column;
     justify-content:center;
@@ -177,11 +192,6 @@ nav a {text-decoration:none;color:#3b2f2f;font-size:18px;white-space:nowrap;}
 
   .nav-links a{
     font-size:22px;
-  }
-
-  .lang-switch{
-    margin-left:0;
-    margin-top:10px;
   }
 }
 
@@ -209,13 +219,13 @@ header h1 {
 }
 
 header p {
-  font-size:clamp(14px, 3.8vw, 22px);
+  font-size:clamp(20px, 5.5vw, 30px);
   letter-spacing:2px;
   color:#3b2f2f;
   margin:0;
 }
 
-.countdown {margin-top:20px;font-size:clamp(14px, 4vw, 24px);}
+.countdown {margin-top:20px;font-size:clamp(20px, 6vw, 34px);}
 
 /* Sections */
 section {
@@ -224,6 +234,7 @@ section {
   margin:40px auto;
   text-align:center;
   background:rgba(248,245,240,0.55);
+  -webkit-backdrop-filter:blur(2px);
   backdrop-filter:blur(2px);
   border-radius:20px;
   opacity:0;
@@ -716,7 +727,6 @@ footer {
 </div>
 
 <nav>
-<button type="button" class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Menu">☰</button>
 <div class="nav-links" id="navLinks">
 <a href="#home" data-en="Home" data-es="Inicio">Home</a>
 <a href="#story" data-en="Welcome" data-es="Bienvenidos">Welcome</a>
@@ -728,10 +738,13 @@ footer {
 <a href="#photos" data-en="Photos" data-es="Fotografías">Photos</a>
 <a href="#rsvp" data-en="RSVP" data-es="RSVP">RSVP</a>
 <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+</div>
+<div class="nav-bar-right" id="navBarRight">
 <div class="lang-switch">
   <button type="button" class="lang-btn active" id="lang-en" onclick="setLanguage('en')">EN</button>
   <button type="button" class="lang-btn" id="lang-es" onclick="setLanguage('es')">ES</button>
 </div>
+<button type="button" class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Menu">☰</button>
 </div>
 </nav>
 
