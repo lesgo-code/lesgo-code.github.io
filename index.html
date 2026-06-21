@@ -236,12 +236,13 @@ header h1 {
 
 header p {
   font-size:clamp(20px, 5.5vw, 30px);
+  font-weight:bold;
   letter-spacing:2px;
   color:#3b2f2f;
   margin:0;
 }
 
-.countdown {margin-top:20px;font-size:clamp(20px, 6vw, 34px);}
+.countdown {margin-top:20px;font-size:clamp(20px, 6vw, 34px);font-weight:bold;}
 
 /* Sections */
 section {
@@ -1158,11 +1159,8 @@ document.addEventListener('DOMContentLoaded', function() {
             behavior: 'smooth'
           });
 
-          // Optional: Close mobile menu if open
-          const navLinksContainer = document.querySelector('.nav-links');
-          if (navLinksContainer && navLinksContainer.classList.contains('open')) {
-            navLinksContainer.classList.remove('open');
-          }
+          // Close mobile menu if open
+          closeNav();
         }
       });
     });
@@ -1205,13 +1203,19 @@ setInterval(()=>{
 },1000);
 
 const sections=document.querySelectorAll("section");
-document.getElementById('page-scroll').addEventListener("scroll",()=>{
+const pageScrollEl=document.getElementById('page-scroll');
+
+function revealSections(){
  sections.forEach(sec=>{
    if(sec.getBoundingClientRect().top<window.innerHeight-100){
      sec.classList.add("show");
    }
  });
-});
+}
+
+revealSections(); // run once immediately so sections in view show up without needing to scroll first
+pageScrollEl.addEventListener("scroll", revealSections);
+window.addEventListener("resize", revealSections);
 
 function toggleMusic(){
  const music=document.getElementById('music');
@@ -1226,15 +1230,16 @@ function toggleNav(){
   document.body.style.overflow=isOpen ? 'hidden' : '';
 }
 
-document.querySelectorAll('#navLinks a').forEach(link=>{
-  link.addEventListener('click',()=>{
-    const links=document.getElementById('navLinks');
-    const btn=document.getElementById('navToggle');
-    links.classList.remove('open');
-    btn.textContent='☰';
-    document.body.style.overflow='';
-  });
-});
+function closeNav(){
+  const links=document.getElementById('navLinks');
+  const btn=document.getElementById('navToggle');
+  links.classList.remove('open');
+  btn.textContent='☰';
+  document.body.style.overflow='';
+}
+
+// Close the menu on a tap anywhere inside it — a link or empty space
+document.getElementById('navLinks').addEventListener('click', closeNav);
 
 </script>
 
