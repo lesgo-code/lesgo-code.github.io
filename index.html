@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abi & Ivan</title>
+
+<style>
+
+ section {
+      scroll-margin-top: 80px; /* Adjust this value as needed */
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+@font-face {
+  font-family:'Kenao';
+  src:url('fonts/Kenao.otf') format('opentype');
+  font-weight:normal;
+  font-style:normal;
+  font-display:swap;
+}
+
+* {
+  box-sizing:border-box;
+}
+
+html {
+  -webkit-text-size-adjust:100%;
+}
+
+body {
+  margin:0;
+  font-family:'Kenao', sans-serif;
+  color:#3b2f2f;
+  overflow-x:hidden;
+  background:none;
+}
+
+/* Background Image */
+.bg-image{
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  background:
+    linear-gradient(rgba(248,245,240,0.75),rgba(248,245,240,0.75)),
+    url('images/Basilica_Santa_Maria_Elche.jpg');
+  background-size:cover;
+  background-position:55% 35%;
+  background-repeat:no-repeat;
+}
+
+/* iOS Safari background fix */
+@media(max-width:768px){
+  .bg-image{
+    background-position:58% 32%;
+  }
+}
+
+/* Opening Screen */
+.intro {
+  position:fixed;
+  width:100%;height:100%;
+  background:#000;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:5000;
+  animation:fadeOut 2s ease 4s forwards;
+}
+
+.intro h1 {
+  font-family:'Kenao', sans-serif;
+  font-size:60px;
+  opacity:0;
+  animation:fadeIn 2s ease forwards;
+  text-align:center;
+  padding:0 20px;
+}
+
+/* Animations */
+@keyframes fadeIn {to{opacity:1}}
+@keyframes fadeOut {to{opacity:0;visibility:hidden}}
+
+/* Navigation styles */
+nav {
+  position:fixed;
+  width:100%;
+  top:0;
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(10px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:40px;
+  padding:15px;
+  z-index:1000;
+}
+
+nav a {text-decoration:none;color:#3b2f2f;font-size:18px;white-space:nowrap;}
+
+.nav-links {
+  display:flex;
+  align-items:center;
+  gap:40px;
+}
+
+.lang-switch {
+  display:flex;
+  gap:6px;
+  margin-left:10px;
+}
+
+.lang-btn {
+  background:none;
+  border:1px solid #c8a97e;
+  color:#3b2f2f;
+  font-family:'Kenao', sans-serif;
+  font-size:12px;
+  padding:4px 10px;
+  border-radius:20px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.lang-btn.active {
+  background:#c8a97e;
+  color:white;
+}
+
+.nav-toggle {
+  display:none;
+  background:none;
+  border:none;
+  color:#3b2f2f;
+  font-size:26px;
+  line-height:1;
+  cursor:pointer;
+  padding:4px 8px;
+}
+
+@media(max-width:768px){
+  nav{
+    justify-content:flex-end;
+    padding:12px 16px;
+  }
+
+  .nav-toggle{
+    display:block;
+  }
+
+  .nav-links{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    height:100vh;
+    width:100%;
+    background:rgba(248,245,240,0.98);
+    backdrop-filter:blur(10px);
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:26px;
+    padding:30px;
+  }
+
+  .nav-links.open{
+    display:flex;
+  }
+
+  .nav-links a{
+    font-size:22px;
+  }
+
+  .lang-switch{
+    margin-left:0;
+    margin-top:10px;
+  }
+}
+
+/* Header styles */
+header {
+  min-height:40vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:#3b2f2f;
+  background:none;
+  padding:110px 20px 30px;
+}
+
+header h1 {
+  font-family:'Kenao', sans-serif;
+  font-size:clamp(34px, 11vw, 80px);
+  line-height:1.1;
+  color:#3b2f2f;
+  margin:0 0 10px;
+  overflow-wrap:break-word;
+  word-break:break-word;
+}
+
+header p {
+  font-size:clamp(14px, 3.8vw, 22px);
+  letter-spacing:2px;
+  color:#3b2f2f;
+  margin:0;
+}
+
+.countdown {margin-top:20px;font-size:clamp(14px, 4vw, 24px);}
+
+/* Sections */
+section {
+  padding:100px 20px;
+  max-width:900px;
+  margin:40px auto;
+  text-align:center;
+  background:rgba(248,245,240,0.55);
+  backdrop-filter:blur(2px);
+  border-radius:20px;
+  opacity:0;
+  transform:translateY(50px);
+  transition:1s;
+}
+
+section.show {opacity:1;transform:translateY(0);}
+
+h2 {
+  font-family:'Kenao', sans-serif;
+  font-size:clamp(30px, 7vw, 80px);
+  line-height:1.1;
+  margin:0;
+  overflow-wrap:break-word;
+}
+
+/* Divider styles */
+.divider {
+  width:80px;height:2px;
+  background:#c8a97e;
+  margin:20px auto;
+}
+
+/* Gallery styles */
+.gallery {
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+/* Our Story photo gallery */
+.story-gallery {
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:16px;
+  margin-top:30px;
+}
+
+.story-gallery img {
+  width:100%;
+  object-fit:cover;
+  border-radius:14px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+  display:block;
+}
+
+.story-gallery .story-photo-top {
+  grid-column:1 / -1;
+  height:340px;
+}
+
+.story-gallery .story-photo-tall {
+  height:460px;
+}
+
+@media(max-width:700px){
+  .story-gallery{
+    gap:10px;
+  }
+  .story-gallery .story-photo-top{
+    height:220px;
+  }
+  .story-gallery .story-photo-tall{
+    height:280px;
+  }
+}
+
+/* RSVP form styles */
+.rsvp form {
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  max-width:400px;
+  margin:auto;
+}
+
+.rsvp input,.rsvp select {
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+
+.rsvp button {
+  padding:15px;
+  background:#c8a97e;
+  border:none;
+  color:white;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+/* Upload CTA styles */
+.upload-cta {
+  width:100%;
+  margin-top:40px;
+}
+
+/* Adjusted spacing for Photos section */
+#photos h2 {
+  margin-bottom: 8px; /* Reduced space below header */
+}
+
+#photos .upload-cta {
+  margin-top: 8px; /* Reduced space above upload button */
+}
+
+/* Upload button styles */
+.upload-btn {
+  display:inline-block;
+  padding:14px 32px;
+  background:#c8a97e;
+  color:white;
+  text-decoration:none;
+  border-radius:30px;
+  font-family:'Kenao', sans-serif;
+  font-size:14px;
+  letter-spacing:1px;
+  transition:.3s;
+}
+
+.upload-btn:hover {
+  background:#b3935f;
+}
+
+/* RSVP Google Form embeds */
+.rsvp-forms {
+  display:flex;
+  flex-direction:column;
+  gap:60px;
+  margin-top:20px;
+}
+
+.rsvp-form-block h3 {
+  font-family:'Kenao', sans-serif;
+  font-size:20px;
+  letter-spacing:1px;
+  margin-bottom:15px;
+  color:#3b2f2f;
+}
+
+.rsvp-form-block iframe {
+  width:100%;
+  max-width:640px;
+  height:1100px;
+  border:0;
+  border-radius:10px;
+  background:rgba(255,255,255,0.6);
+}
+
+@media(max-width:700px){
+  .rsvp-form-block iframe{height:1300px;}
+}
+
+@media(max-width:420px){
+  .rsvp-form-block iframe{height:1450px;}
+}
+
+/* Details block styles */
+.details-block {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 12px;
+}
+
+.details-block h3 {
+  font-family: 'Kenao', sans-serif;
+  font-size: 34px;
+  margin: 20px 0 10px;
+  color: #8f7a59;
+}
+
+.details-block p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #3b2f2f;
+  margin: 0 auto 10px;
+  max-width: 700px;
+}
+
+.details-block a {
+  color: #8f7a59;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* Timeline styles */
+.timeline {
+  position: relative;
+}
+
+.timeline-wrapper {
+  max-width: 700px;
+  margin: 50px auto 0;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 100px 1fr 120px;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 0;
+  position: relative;
+}
+
+.timeline-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 60px;
+  top: 70px;
+  width: 2px;
+  height: 60px;
+  background: #c8a97e;
+  opacity: .6;
+}
+
+.timeline-icon {
+  font-size: clamp(22px, 6vw, 48px);
+}
+
+.timeline-content h3 {
+  margin: 0;
+  font-family:'Kenao', sans-serif;
+  font-size: clamp(17px, 4.8vw, 38px);
+  line-height:1.2;
+  color:#8f7a59;
+}
+
+.timeline-content p {
+  margin: 4px 0 0;
+  font-size: clamp(12px, 3.2vw, 20px);
+  color:#8f7a59;
+}
+
+.timeline-time {
+  font-family:'Kenao', sans-serif;
+  font-size: clamp(16px, 4.5vw, 42px);
+  color:#8f7a59;
+  text-align:right;
+}
+
+@media(max-width:768px){
+  .timeline-wrapper{
+    margin-top:30px;
+  }
+
+  .timeline-item{
+    grid-template-columns:36px 1fr auto;
+    gap:12px;
+    padding:16px 0;
+  }
+
+  .timeline-time{
+    grid-column:3;
+    text-align:right;
+  }
+
+  .timeline-item:not(:last-child)::after{
+    left:18px;
+    right:auto;
+    top:48px;
+    height:34px;
+  }
+}
+
+/* Location section styles */
+.location-subheading {
+  font-family:'Kenao', sans-serif;
+  font-size:28px;
+  margin:45px 0 0;
+  text-align:center;
+}
+
+.location-block {
+  margin-top:25px;
+}
+
+.location-block:first-of-type .location-subheading {
+  margin-top:20px;
+}
+
+.location-box {
+  background:rgba(255,255,255,0.6);
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+
+.map {
+  width:100%;
+  height:350px;
+  border:0;
+  border-radius:10px;
+  margin-top:20px;
+}
+
+.route-image {
+  width:100%;
+  max-width:900px;
+  display:block;
+  margin:20px auto 0;
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+}
+
+.route-note {
+  margin-top:10px;
+  font-size:16px;
+  line-height:1.5;
+  color:#3b2f2f;
+}
+
+@media(max-width:768px){
+  .route-note{
+    font-size:14px;
+  }
+}
+
+/* Stay & Dine section styles */
+.stay-subheading {
+  font-family:'Kenao', sans-serif;
+  font-size:28px;
+  margin:45px 0 20px;
+  text-align:center;
+}
+
+.stay-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:20px;
+  text-align:left;
+}
+
+.stay-card {
+  background:rgba(255,255,255,0.6);
+  border-radius:12px;
+  padding:20px;
+}
+
+.stay-card h4 {
+  font-family:'Kenao', sans-serif;
+  font-size:20px;
+  margin:0 0 6px;
+  color:#3b2f2f;
+}
+
+.stay-card .stay-meta {
+  font-size:14px;
+  color:#8a7a6a;
+  margin:0 0 10px;
+}
+
+.stay-card p {
+  margin:0 0 10px;
+  font-size:16px;
+  line-height:1.4;
+}
+
+.stay-card a {
+  display:block;
+  color:#c8a97e;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+.stay-card a:hover {
+  text-decoration:underline;
+}
+
+/* Floating flowers animation */
+.flower {
+  position:fixed;
+  width:40px;
+  opacity:0.6;
+  animation:float 12s linear infinite;
+  pointer-events:none;
+}
+
+@keyframes float {
+  0% {transform:translateY(100vh) rotate(0deg)}
+  100% {transform:translateY(-10vh) rotate(360deg)}
+}
+
+/* Music button */
+.music-btn {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  width:60px;height:60px;
+  border-radius:50%;
+  background:#c8a97e;
+  color:white;
+  border:none;
+  cursor:pointer;
+  font-size:20px;
+  z-index:900;
+}
+
+/* Footer styles */
+footer {
+  padding:40px;
+  text-align:center;
+  background:#eee;
+}
+
+/* Contact section styles */
+.contact-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:20px;
+  margin-top:30px;
+}
+
+.contact-card {
+  background:rgba(255,255,255,0.6);
+  border-radius:12px;
+  padding:25px 20px;
+}
+
+.contact-card h4 {
+  font-family:'Kenao', sans-serif;
+  font-size:22px;
+  margin:0 0 10px;
+  color:#8f7a59;
+}
+
+.contact-card p {
+  margin:0 0 6px;
+  font-size:16px;
+}
+
+.contact-card a {
+  color:#3b2f2f;
+  text-decoration:none;
+}
+
+.contact-card a:hover {
+  color:#c8a97e;
+  text-decoration:underline;
+}
+
+/* Responsive adjustments */
+@media(max-width:768px){
+  .intro h1 {font-size:clamp(30px, 10vw, 42px);}
+  header {min-height:28vh;padding:100px 16px 24px;}
+  section {
+    padding:50px 16px;
+    margin:24px auto;
+    border-radius:14px;
+  }
+  .details-block {padding:16px;}
+  .details-block h3 {font-size:22px;margin:16px 0 8px;}
+  .details-block p {font-size:15px;line-height:1.5;}
+  .location-box {padding:16px;}
+  .location-box p {font-size:14px;line-height:1.5;}
+  .location-subheading {font-size:20px;margin:28px 0 0;}
+  .map, .location-box > div[style]{height:220px;}
+  .stay-subheading {font-size:20px;margin:28px 0 14px;}
+  .stay-card {padding:14px;}
+  .contact-card {padding:18px;}
+  .rsvp-form-block iframe {max-width:100%;}
+  .upload-btn {padding:12px 24px;font-size:13px;}
+  .music-btn {width:46px;height:46px;bottom:16px;right:16px;font-size:15px;}
+  .flower {width:24px;}
+}
+
+/* Specific adjustments for Photos section spacing */
+#photos h2 {
+  margin-bottom: 8px; /* Reduced space below header */
+}
+
+#photos .upload-cta {
+  margin-top: 8px; /* Reduced space above upload button */
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="bg-image"></div>
+
+<div class="intro">
+  <h1>Abi & Iván</h1>
+  <p data-en="Present" data-es="Presentan">Present</p>
+</div>
+
+<nav>
+<button type="button" class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Menu">☰</button>
+<div class="nav-links" id="navLinks">
+<a href="#home" data-en="Home" data-es="Inicio">Home</a>
+<a href="#story" data-en="Welcome" data-es="Bienvenidos">Welcome</a>
+<a href="#timeline" data-en="Timeline" data-es="Programa">Timeline</a>
+<a href="#celebration" data-en="The Celebration" data-es="La Celebración">The Celebration</a>
+<a href="#location" data-en="Location" data-es="Ubicación">Location</a>
+<a href="#stay" data-en="Stay & Dine" data-es="Alojamiento y Restaurantes">Stay & Dine</a>
+<a href="#getting-around" data-en="Getting Around" data-es="Desplazamiento">Getting Around</a>
+<a href="#photos" data-en="Photos" data-es="Fotografías">Photos</a>
+<a href="#rsvp" data-en="RSVP" data-es="RSVP">RSVP</a>
+<a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+<div class="lang-switch">
+  <button type="button" class="lang-btn active" id="lang-en" onclick="setLanguage('en')">EN</button>
+  <button type="button" class="lang-btn" id="lang-es" onclick="setLanguage('es')">ES</button>
+</div>
+</div>
+</nav>
+
+
+<header id="home">
+<h1>Abi & Iván</h1>
+<p data-en="June 19, 2027" data-es="19 de junio de 2027">June 19, 2027</p>
+<div class="countdown" id="countdown"></div>
+</header>
+
+<section id="story">
+<h2 data-en="Welcome" data-es="Bienvenidos">Welcome</h2>
+<div class="divider"></div>
+<p data-en="Thank you for visiting our wedding website. Here you’ll find everything you need to know about our big day. We feel incredibly lucky to be surrounded by such wonderful family and friends, and we can’t wait to celebrate with you." data-es="Gracias por visitar nuestra página web de boda. Aquí encontraréis todo lo que necesitáis saber sobre nuestro gran día. Nos sentimos increíblemente afortunados de estar rodeados de una familia y amigos tan maravillosos, y no podemos esperar a celebrarlo con vosotros.">Thank you for visiting our wedding website. Here you’ll find everything you need to know about our big day. We feel incredibly lucky to be surrounded by such wonderful family and friends, and we can’t wait to celebrate with you.</p>
+
+<div class="story-gallery">
+  <img class="story-photo-top" src="images/story-1.jpg" alt="Abi & Iván">
+  <img class="story-photo-tall" src="images/story-2.jpg" alt="Abi & Iván">
+  <img class="story-photo-tall" src="images/story-3.jpg" alt="Abi & Iván">
+</div>
+</section>
+
+<section id="timeline" class="timeline">
+
+<h2 data-en="Timeline" data-es="Programa">Timeline</h2>
+<div class="divider"></div>
+
+<div class="timeline-wrapper">
+
+  <div class="timeline-item">
+    <div class="timeline-icon">⛪</div>
+    <div class="timeline-content">
+      <h3 data-en="Guests Arrival" data-es="Llegada de los Invitados">Guests Arrival</h3>
+      <p data-en="Basilica Santa Maria" data-es="Basílica de Santa María">Basilica Santa Maria</p>
+    </div>
+    <div class="timeline-time">11:40</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-icon">💍</div>
+    <div class="timeline-content">
+      <h3 data-en="Wedding Ceremony" data-es="Ceremonia de la Boda">Wedding Ceremony</h3>
+    </div>
+    <div class="timeline-time">12:00</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-icon">📸</div>
+    <div class="timeline-content">
+      <h3 data-en="Photographs" data-es="Fotografías">Photographs</h3>
+    </div>
+    <div class="timeline-time">13:30</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-icon">🥂</div>
+    <div class="timeline-content">
+      <h3 data-en="Cocktail Reception" data-es="Cóctel de Recepción">Cocktail Reception</h3>
+      <p data-en="Hort de Nal" data-es="Hort de Nal">Hort de Nal</p>
+    </div>
+    <div class="timeline-time">14:30</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-icon">🍽️</div>
+    <div class="timeline-content">
+      <h3 data-en="Lunch" data-es="Comida">Lunch</h3>
+    </div>
+    <div class="timeline-time">16:00</div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-icon">🪩</div>
+    <div class="timeline-content">
+      <h3 data-en="Party Time!" data-es="¡Hora de Fiesta!">Party Time!</h3>
+    </div>
+    <div class="timeline-time">19:00</div>
+  </div>
+
+</div>
+
+</section>
+
+<section id="celebration">
+<h2 data-en="The Celebration" data-es="La Celebración">The Celebration</h2>
+<div class="divider"></div>
+<div class="details-block">
+
+  <h3 data-en="Dress Code" data-es="Código de Vestimenta">Dress Code</h3>
+  <p data-en="We kindly request you wear summer formal attire for the event, Please have shoulders covered for the ceremony, and refrain from wearing white or cream."data-es="Te pedimos amablemente que uses ropa formal de verano para el evento. Por favor, ten los hombros cubiertos durante la ceremonia y evita usar blanco o crema.">We kindly request you wear summer formal attire for the event, Please have shoulders
+covered for the ceremony, and refrain from
+wearing white or cream.
+  </p>
+
+  <div class="divider"></div>
+
+  <h3 data-en="Gifts" data-es="Regalos">Gifts</h3>
+  <p data-en="Your love and presence are the most special gift. If you wish to contribute in another way, a monetary gift will help us as we plan our future together. (IE12 REVO 9903 6009 4409 48)"
+     data-es="Vuestro amor y presencia son el regalo más especial. Si deseáis contribuir de otra manera, una donación monetaria nos ayudará a planificar nuestro futuro juntos. (IE12 REVO 9903 6009 4409 48)">
+    Your love and presence are the most special gift. If you wish to contribute in another way, a monetary gift will help us as we plan our future together. (IE12 REVO 9903 6009 4409 48)
+  </p>
+
+  <div class="divider"></div>
+
+  <h3 data-en="Plus Ones" data-es="Acompañantes">Plus Ones</h3>
+  <p data-en="Due to limited space, we are only able to accommodate guests formally invited on your wedding invitation. Thank you for your understanding!" data-es="Debido al espacio limitado, solo podemos acoger a los invitados formalmente invitados en vuestra invitación de boda. ¡Gracias por vuestra comprensión!">Due to limited space, we are only able to accommodate guests formally invited on your wedding invitation. Thank you for your understanding!</p>
+
+  <div class="divider"></div>
+
+  <h3 data-en="Parking" data-es="Aparcamiento">Parking</h3>
+  <p data-en="There is complimentary parking at the venue. Guests can park there and walk to the church before the ceremony." data-es="Hay aparcamiento gratuito en el lugar del evento. Los invitados pueden aparcar allí y caminar hasta la iglesia antes de la ceremonia.">There is complimentary parking at the venue. Guests can park there and walk to the church before the ceremony.</p>
+
+  <div class="divider"></div>
+
+  <h3 data-en="Photos" data-es="Fotografías">Photos</h3>
+  <p><span data-en="Feel free to take as many photos and videos as you like throughout the day, and please do share them with us after the event through our " data-es="¡Siéntete libre de tomar tantas fotos y vídeos como quieras durante todo el día, y por favor compártelos con nosotros después del evento a través de nuestro ">Feel free to take as many photos and videos as you like throughout the day, and please do share them with us after the event through our </span><a href="https://docs.google.com/forms/d/e/1FAIpQLSddV8AximSLpZnv26DzZUNapDjg2QRXKKj6kQkaoScvaqjyFw/viewform" target="_blank" rel="noopener" data-en="website" data-es="sitio web">website</a>!</p>
+
+</div>
+</section>
+
+<!-- LOCATION ADDED -->
+<section id="location">
+<h2 data-en="Location" data-es="Ubicación">Location</h2>
+<div class="divider"></div>
+
+<div class="location-block">
+<h3 class="location-subheading" data-en="Ceremony" data-es="Ceremonia">Ceremony</h3>
+<div class="location-box">
+<p><strong>Basílica de Santa María</strong></p>
+<p>Elche</p>
+<p data-en="The ceremony begins at 12:00. Please arrive by 11:40 to find your seat." data-es="La ceremonia comienza a las 12:00. Por favor, llega antes de las 11:40 para encontrar tu asiento.">The ceremony begins at 12:00. Please arrive by 11:40 to find your seat.</p>
+<a href="https://basilicasantamariaelche.es/" target="_blank" rel="noopener" style="color:#8f7a59;text-decoration:underline;font-weight:bold;" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+</div>
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin-top:20px;border-radius:10px;overflow:hidden;">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4641.986400481238!2d-0.6979339755177951!3d38.26713704718276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd63b6f49c90d5cd%3A0xdaad20ada4e80fad!2sBas%C3%ADlica%20de%20Santa%20Maria!5e1!3m2!1sen!2ses!4v1781940788375!5m2!1sen!2ses"
+    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+</div>
+
+<div class="location-block">
+<h3 class="location-subheading" data-en="Reception" data-es="Recepción">Reception</h3>
+<div class="location-box">
+<p><strong>Hort de Nal</strong></p>
+<p>Elche</p>
+<p data-en="The ceremony will finish at around 13:30. While the bride
+and groom have their photographs taken, guests are
+welcome to enjoy a drink and a chat at one of the lovely bars
+or cafés around the church. Guests can then make their
+way to the venue for 14:30." data-es="La ceremonia finalizará alrededor de las 13:30. Mientras los novios se toman las fotografías, los invitados pueden disfrutar de una bebida y conversar en alguno de los agradables bares o cafeterías de los alrededores de la iglesia. Posteriormente, los invitados podrán dirigirse al lugar de la celebración para las 14:30.">The ceremony will finish at around 13:30. While the bride
+and groom have their photographs taken, guests are
+welcome to enjoy a drink and a chat at one of the lovely bars
+or cafés around the church. Guests can then make their
+way to the venue for 14:30.</p>
+<a href="https://hortdenal.com/en/" target="_blank" rel="noopener" style="color:#8f7a59;text-decoration:underline;font-weight:bold;"data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+</div>
+
+<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin-top:20px;border-radius:10px;overflow:hidden;">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3903.2890302861665!2d-0.6949268235336751!3d38.26975498349248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd63b68bb20c0a87%3A0x38b3dab94946103b!2sHotel%20Boutique%20Hort%20De%20Nal%20Elche%20centro!5e1!3m2!1sen!2ses!4v1780344253162!5m2!1sen!2ses"
+    style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+</div>
+
+<div class="location-block">
+
+  <h3 class="location-subheading"
+      data-en="Path from Ceremony to Reception"
+      data-es="Ruta de la Ceremonia a la Recepción">
+      Path from Ceremony to Reception
+  </h3>
+
+  <div class="location-box">
+
+    <p class="route-note"
+       data-en="The reception venue is only a short walk from the church. Follow the route below to make your way from Basílica Santa María to Hort de Nal."
+       data-es="El lugar de la celebración se encuentra a pocos minutos a pie de la iglesia. Sigue la ruta indicada para llegar desde la Basílica de Santa María hasta Hort de Nal.">
+       The reception venue is only a short walk from the church. Follow the route below to make your way from Basílica Santa María to Hort de Nal.
+    </p>
+
+    <img
+      src="images/path.jpg"
+      alt="Route from Basílica Santa María to Hort de Nal"
+      class="route-image">
+  </div>
+
+</div>
+
+</section>
+
+<section id="stay">
+<h2 data-en="Stay &amp; Dine" data-es="Alojamiento y Restaurantes">Stay & Dine</h2>
+<div class="divider"></div>
+<p data-en="A few of our favorite spots near Elche for your stay." data-es="Algunos de nuestros lugares favoritos cerca de Elche para tu estancia.">A few of our favorite spots near Elche for your stay.</p>
+
+<h3 class="stay-subheading" data-en="Hotels" data-es="Hoteles">Hotels</h3>
+<div class="stay-grid">
+  <div class="stay-card">
+    <h4>Hotel Elche Centro (Meliá)</h4>
+    <p data-en="We will have a special rate available for this hotel. Please let us know if you are interested and we can send you the link to book direct." data-es="Tendremos una tarifa especial disponible para este hotel. Avísanos si estás interesado y te enviaremos el enlace para reservar directamente.">We will have a special rate available for this hotel. Please let us know if you are interested and we can send you the link to book direct.</p>
+    <a href="https://www.melia.com/es/hoteles/espana/elche/hotel-elche-centro-by-melia" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/RMqqk51qivu8mNnk8" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Hotel Jardín Milenio</h4>
+    <p data-en="Where Real Madrid stay!" data-es="¡Donde se aloja el Real Madrid!">Where Real Madrid stay!</p>
+    <a href="https://www.porthotels.es/port-jardin-milenio.html" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/oKSmscRgCTZJvS1Z6" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Hotel Huerto del Cura</h4>
+    <p data-en="Beautiful setting" data-es="Un entorno precioso">Beautiful setting</p>
+    <a href="https://www.hotelhuertodelcura.com/" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/KzVZr48vmqCJWHc37" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+</div>
+
+<h3 class="stay-subheading" data-en="Cafés" data-es="Cafeterías">Cafés</h3>
+<div class="stay-grid">
+  <div class="stay-card">
+    <h4>Pastelería Royal</h4>
+    <p data-en="Great pastries and coffee" data-es="Excelentes pasteles y café">Great pastries and coffee</p>
+    <a href="https://www.pasteleriaroyal.com/" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/nvvnnydYbakLCNzG8" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Santa Gloria Coffee & Bakery</h4>
+    <p data-en="Delicious cakes" data-es="Tartas deliciosas">Delicious cakes</p>
+    <a href="https://www.santagloria.com/" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/ah9VAYW87SJqad2p6" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Basílica Brunch & Cocktails</h4>
+    <p data-en="Beside the church" data-es="Junto a la iglesia">Beside the church</p>
+    <a href="https://www.google.com/maps/place/Bas%C3%ADlica+Brunch+%26+Cocktails/@38.2675958,-0.697764,48m/data=!3m1!1e3!4m6!3m5!1s0xd63b7331accda05:0x9a87478a53c21613!8m2!3d38.267565!4d-0.6976008!16s%2Fg%2F11n5btn0hy" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+</div>
+
+<h3 class="stay-subheading" data-en="Restaurants" data-es="Restaurantes">Restaurants</h3>
+<div class="stay-grid">
+  <div class="stay-card">
+    <h4>Restaurante Parres</h4>
+    <p data-en="Great Menu del Día" data-es="Excelente Menú del Día">Great Menu del Día</p>
+    <a href="https://restauranteparres.es/" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/jrn8zt4wnkHfbk9y7" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Saona Elche</h4>
+    <p data-en="Spanish food with a twist" data-es="Comida española con un toque diferente">Spanish food with a twist</p>
+    <a href="https://www.gruposaona.com/restaurante/saona-elche/" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/8v1eNW8CFZbVfWQS7" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Infraganti Pizza Bar</h4>
+    <p data-en="Amazing pizza" data-es="Pizza increíble">Amazing pizza</p>
+    <a href="https://infragantipizza.com/" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+    <a href="https://maps.app.goo.gl/Zi8eyh1reZBW2QDF7" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+</div>
+
+<h3 class="stay-subheading" data-en="Drinks & Music" data-es="Bebidas y Música">Drinks & Music</h3>
+<div class="stay-grid">
+  <div class="stay-card">
+    <h4>Botánico Club</h4>
+    <p data-en="Night club" data-es="Discoteca">Night club</p>
+    <a href="https://www.google.com/maps/place/Bot%C3%A1nico+Club/@38.2677216,-0.700084,676m/data=!3m2!1e3!4b1!4m6!3m5!1s0xd63b764cc2c1133:0x5003b043cff9b166!8m2!3d38.2677216!4d-0.6975091!16s%2Fg%2F11gwh15l2j" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Flaherty's Irish Pub</h4>
+    <p data-en="Drinks on the terrace" data-es="Copas en la terraza">Drinks on the terrace</p>
+    <a href="https://www.google.com/maps/place/Flaherty's/@38.2676545,-0.6974454,187m/data=!3m1!1e3!4m6!3m5!1s0xd63b68b5293c63b:0x9fa0eb9e259176a0!8m2!3d38.2676399!4d-0.696219!16s%2Fg%2F11cmg0wjs7" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+  <div class="stay-card">
+    <h4>Plaza de las Flores</h4>
+    <p data-en="Popular plaza with bars" data-es="Plaza popular con bares">Popular plaza with bars</p>
+    <a href="https://www.google.com/maps/place/La+Galer%C3%ADa+del+Pint%C3%B3n/@38.2663324,-0.6981937,90m/data=!3m1!1e3!4m6!3m5!1s0xd63b7c0d0500e7d:0x4dff78df93397cf9!8m2!3d38.2662405!4d-0.6981948!16s%2Fg%2F11rklzl_nf" target="_blank" rel="noopener" data-en="View on map" data-es="Ver en el mapa">View on map</a>
+  </div>
+</div>
+</section>
+
+<section id="getting-around">
+<h2 data-en="Getting Around" data-es="Desplazamiento">Getting Around</h2>
+<div class="divider"></div>
+<p data-en="A few easy ways to get to and from the celebration." data-es="Algunas formas sencillas de llegar e ir desde la celebración.">A few easy ways to get to and from the celebration.</p>
+
+<h3 class="stay-subheading" data-en="Taxis" data-es="Taxis">Taxis</h3>
+<div class="stay-grid">
+  <div class="stay-card">
+    <h4>Radiotaxi Elche</h4>
+    <p data-en="Official 24-hour taxi service in Elche and the airport." data-es="Servicio oficial de taxi en Elche y el aeropuerto, las 24 horas.">Official 24-hour taxi service in Elche and the airport.</p>
+    <a href="tel:+34965427777">965 42 77 77</a>
+    <a href="https://www.radiotaxielche.es/paradas.asp" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+  </div>
+  <div class="stay-card">
+    <h4>Servitaxi Elx</h4>
+    <p data-en="Official 24-hour taxi service in Elche and the airport." data-es="Servicio oficial de taxi en Elche y el aeropuerto, las 24 horas.">Official 24-hour taxi service in Elche and the airport.</p>
+    <a href="tel:+34965212121">965 21 21 21</a>
+    <a href="https://servitaxielx.com" target="_blank" rel="noopener" data-en="Visit website" data-es="Visitar sitio web">Visit website</a>
+  </div>
+</div>
+
+<h3 class="stay-subheading" data-en="Bus" data-es="Autobús">Bus</h3>
+<div class="stay-grid">
+  <div class="stay-card">
+    <h4>C6</h4>
+    <p data-en="The C6 bus line connects Alicante city centre with Alicante-Elche Airport, running 24 hours a day — about every 20 minutes during the day and every 40 minutes in the early morning and late at night." data-es="La línea de autobús C6 conecta el centro de Alicante con el Aeropuerto de Alicante-Elche, con servicio las 24 horas — aproximadamente cada 20 minutos durante el día y cada 40 minutos a primera hora de la mañana y por la noche.">The C6 bus line connects Alicante city centre with Alicante-Elche Airport, running 24 hours a day — about every 20 minutes during the day and every 40 minutes in the early morning and late at night.</p>
+    <a href="https://alibus.es/lines/alicante/c-6/" target="_blank" rel="noopener" data-en="View timetable & stops" data-es="Ver horarios y paradas">View timetable & stops</a>
+  </div>
+</div>
+</section>
+
+<section id="photos" class="photos">
+<h2 style="width:100%" data-en="Photos" data-es="Fotografías">Photos</h2>
+<div class="divider"></div>
+
+<div class="upload-cta">
+<p data-en="Have photos or videos from the celebration? We'd love to see them!" data-es="¿Tienes fotos o videos de la celebración? ¡Nos encantaría verlas!">Have photos or videos from the celebration? We'd love to see them!</p>
+<a class="upload-btn" href="https://docs.google.com/forms/d/e/1FAIpQLSddV8AximSLpZnv26DzZUNapDjg2QRXKKj6kQkaoScvaqjyFw/viewform" target="_blank" rel="noopener" data-en="Upload Photos & Videos" data-es="Subir Fotos y Videos">Upload Photos & Videos</a>
+</div>
+</section>
+
+<section id="rsvp" class="rsvp">
+<h2 data-en="Kindly Respond" data-es="Por favor confirme su asistencia">Kindly Respond</h2>
+<div class="divider"></div>
+
+<div class="rsvp-forms">
+  <div class="rsvp-form-block">
+    <h3>English</h3>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc9dXPDZ62kfcEALttE4xye7XGrNO8ZFXDMiidOy9m5KyMvHg/viewform?embedded=true" loading="lazy">Loading…</iframe>
+  </div>
+  <div class="rsvp-form-block">
+    <h3>Español</h3>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfJCpeuTt5LrRgKkYMLA3k0FWvuwXmDPKRA4ISVJWynGcqHUA/viewform?embedded=true" loading="lazy">Cargando…</iframe>
+  </div>
+</div>
+
+</section>
+
+<section id="contact">
+<h2 data-en="Contact" data-es="Contacto">Contact</h2>
+<div class="divider"></div>
+<p data-en="Questions about the big day? Reach out to us anytime." data-es="¿Tienes preguntas sobre el gran día? Contáctanos cuando quieras.">Questions about the big day? Reach out to us anytime.</p>
+
+<div class="contact-grid">
+  <div class="contact-card">
+    <h4>Abi</h4>
+    <p><a href="tel:+34611726843">+34 611 726 843</a></p>
+    <p><a href="mailto:abimaydaly@gmail.com">abimaydaly@gmail.com</a></p>
+  </div>
+  <div class="contact-card">
+    <h4>Iván</h4>
+    <p><a href="tel:+34655879665">+34 655 879 665</a></p>
+    <p><a href="mailto:ivan.esquer743@gmail.com">ivan.esquer743@gmail.com</a></p>
+  </div>
+</div>
+</section>
+
+<button class="music-btn" onclick="toggleMusic()">♪</button>
+<audio id="music" loop>
+<source src="images/music.mp3" type="audio/mpeg">
+</audio>
+
+<footer>
+<p data-en="With love • Abi & Ivan" data-es="Con amor • Abi & Ivan">With love • Abi & Ivan</p>
+</footer>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('nav a[href^="#"]').forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetID = this.getAttribute('href').slice(1);
+        const targetElement = document.getElementById(targetID);
+        if (targetElement) {
+          const headerOffset = 80; // same as CSS scroll-margin-top
+          const elementPosition = targetElement.offsetTop;
+          const offsetPosition = elementPosition - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+
+          // Optional: Close mobile menu if open
+          const navLinksContainer = document.querySelector('.nav-links');
+          if (navLinksContainer && navLinksContainer.classList.contains('open')) {
+            navLinksContainer.classList.remove('open');
+          }
+        }
+      });
+    });
+  });
+
+let currentLang = 'en';
+const countdownLabels = {
+  en: { days: 'days', hrs: 'hrs' },
+  es: { days: 'días', hrs: 'hrs' }
+};
+
+function setLanguage(lang){
+  currentLang = lang;
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    el.textContent = lang === 'es' ? el.getAttribute('data-es') : el.getAttribute('data-en');
+  });
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lang-es').classList.toggle('active', lang === 'es');
+  document.documentElement.lang = lang;
+}
+
+const weddingDate=new Date("June 19, 2027 12:00:00").getTime();
+setInterval(()=>{
+ const now=new Date().getTime();
+ const diff=weddingDate-now;
+ const d=Math.floor(diff/(1000*60*60*24));
+ const h=Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+ const labels=countdownLabels[currentLang];
+ document.getElementById("countdown").innerHTML=d+" "+labels.days+" "+h+" "+labels.hrs;
+},1000);
+
+const sections=document.querySelectorAll("section");
+window.addEventListener("scroll",()=>{
+ sections.forEach(sec=>{
+   if(sec.getBoundingClientRect().top<window.innerHeight-100){
+     sec.classList.add("show");
+   }
+ });
+});
+
+function toggleMusic(){
+ const music=document.getElementById('music');
+ if(music.paused)music.play(); else music.pause();
+}
+
+function toggleNav(){
+  const links=document.getElementById('navLinks');
+  const btn=document.getElementById('navToggle');
+  const isOpen=links.classList.toggle('open');
+  btn.textContent=isOpen ? '✕' : '☰';
+  document.body.style.overflow=isOpen ? 'hidden' : '';
+}
+
+document.querySelectorAll('#navLinks a').forEach(link=>{
+  link.addEventListener('click',()=>{
+    const links=document.getElementById('navLinks');
+    const btn=document.getElementById('navToggle');
+    links.classList.remove('open');
+    btn.textContent='☰';
+    document.body.style.overflow='';
+  });
+});
+
+</script>
+
+</body>
+</html>
